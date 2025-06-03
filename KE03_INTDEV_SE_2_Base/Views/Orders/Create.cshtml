@@ -1,0 +1,38 @@
+﻿@model DataAccessLayer.Models.Order
+@{
+    var productList = ViewBag.ProductList as List<DataAccessLayer.Models.Product>;
+}
+
+<h2>Create Order</h2>
+
+<form asp-action="Create" method="post">
+    <div class="form-group">
+        <label asp-for="CustomerId">Customer</label>
+        <select asp-for="CustomerId" class="form-control" asp-items="ViewBag.CustomerList"></select>
+    </div>
+
+    <hr />
+    <h4>Select Products</h4>
+    <table class="table">
+        <thead>
+            <tr><th>Product</th><th>Qty</th></tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < productList.Count; i++)
+            {
+                <tr>
+                    <td>
+                        @productList[i].Name
+                        <input type="hidden" name="productIds" value="@productList[i].Id" />
+                    </td>
+                    <td>
+                        <input type="number" name="quantities" class="form-control" min="0" value="0" />
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <button type="submit" class="btn btn-success">Create Order</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>

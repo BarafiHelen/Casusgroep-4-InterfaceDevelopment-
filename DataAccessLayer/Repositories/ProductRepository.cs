@@ -25,18 +25,19 @@ namespace DataAccessLayer.Repositories
 
         public void DeleteProduct(Product product)
         {
-            _context.Products.Remove(product);
+            product.IsActive = false; // Mark as inactive
+            _context.Products.Update(product);
             _context.SaveChanges();
         }
 
         public IEnumerable<Product> GetAllProducts()
         {
-            return _context.Products.Include(p => p.Parts);
+            return _context.Products.Include(p => p.Category).Where(p => p.IsActive);
         }
 
         public Product? GetProductById(int id)
         {
-            return _context.Products.Include(p => p.Parts).FirstOrDefault(p => p.Id == id);
+            return _context.Products.Include(p => p.Category).FirstOrDefault(p => p.Id == id && p.IsActive);
         }
 
         public void UpdateProduct(Product product)

@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using DataAccessLayer;
 using DataAccessLayer.Models;
 
-namespace KE03_INTDEV_SE_2_Base
+namespace KE03_INTDEV_SE_2_Base.Controllers
 {
     public class CustomersController : Controller
     {
@@ -22,7 +22,7 @@ namespace KE03_INTDEV_SE_2_Base
         // GET: Customers
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Customers.ToListAsync());
+            return View(await _context.Customers.Where(c => c.IsActive).ToListAsync());
         }
 
         // GET: Customers/Details/5
@@ -34,7 +34,11 @@ namespace KE03_INTDEV_SE_2_Base
             }
 
             var customer = await _context.Customers
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .Include(c => c.Orders)
+                .ThenInclude(o => o.OrderItems)
+                .ThenInclude(oi => oi.Product)
+                .FirstOrDefaultAsync(c => c.Id == id);
+
             if (customer == null)
             {
                 return NotFound();
@@ -54,7 +58,7 @@ namespace KE03_INTDEV_SE_2_Base
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Address,Active")] Customer customer)
+        public async Task<IActionResult> Create([Bind("Id,Name,Address,IsActive")] Customer customer)
         {
             if (ModelState.IsValid)
             {
@@ -86,7 +90,7 @@ namespace KE03_INTDEV_SE_2_Base
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Address,Active")] Customer customer)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Address,IsActive")] Customer customer)
         {
             if (id != customer.Id)
             {
@@ -142,7 +146,8 @@ namespace KE03_INTDEV_SE_2_Base
             var customer = await _context.Customers.FindAsync(id);
             if (customer != null)
             {
-                _context.Customers.Remove(customer);
+                customer.IsActive = false;
+                _context.Customers.Update(customer);
             }
 
             await _context.SaveChangesAsync();

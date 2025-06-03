@@ -26,13 +26,14 @@ namespace DataAccessLayer.Repositories
 
         public void DeleteCustomer(Customer customer)
         {
-            _context.Customers.Remove(customer);
+            customer.IsActive = false;
+            _context.Customers.Update(customer);
             _context.SaveChanges();
         }
 
         public IEnumerable<Customer> GetAllCustomers()
         {
-            return _context.Customers.Include(c => c.Orders);
+            return _context.Customers.Include(c => c.Orders).Where(c => c.IsActive); ;
         }
 
         public Customer? GetCustomerById(int id)

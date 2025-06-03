@@ -8,17 +8,28 @@ using System.Threading.Tasks;
 namespace DataAccessLayer.Models
 {
     public class Product
-    {        
+    {
         public int Id { get; set; }
 
+        [Required]
         public string Name { get; set; }
 
         public string Description { get; set; }
 
+        [Required]
+        [Range(0.01, 10000)]
         public decimal Price { get; set; }
 
-        public ICollection<Order> Orders { get; } = new List<Order>();
+        [Required]
+        public int Stock { get; set; }
 
-        public ICollection<Part> Parts { get; } = new List<Part>();
+        [Url]
+        [Display(Name = "Product Image URL")]
+        public string ImageUrl { get; set; }
+
+        public bool IsActive { get; set; } = true;
+
+        public int CategoryId { get; set; }
+        public Category Category { get; set; }
     }
 }
