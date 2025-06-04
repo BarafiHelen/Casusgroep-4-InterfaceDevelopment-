@@ -161,5 +161,31 @@ namespace KE03_INTDEV_SE_2_Base.Controllers
         {
             return _context.Products.Any(e => e.Id == id);
         }
+
+        // GET: Products/UpdateStockAndPrice/5
+        public async Task<IActionResult> UpdateStockAndPrice(int id)
+        {
+            var product = await _context.Products.FindAsync(id);
+            if (product == null) return NotFound();
+
+            return View(product);
+        }
+
+        // POST: Products/UpdateStockAndPrice/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UpdateStockAndPrice(int id, int stock, decimal price)
+        {
+            var product = await _context.Products.FindAsync(id);
+            if (product == null) return NotFound();
+
+            product.Stock = stock;
+            product.Price = price;
+            _context.Update(product);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
+        }
+
     }
 }

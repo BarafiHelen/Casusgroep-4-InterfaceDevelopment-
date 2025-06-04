@@ -1,0 +1,25 @@
+﻿@model DataAccessLayer.Models.Product
+
+<h2>Update Stock and Price</h2>
+
+<form asp-action="UpdateStockAndPrice" method="post">
+    <input type="hidden" asp-for="Id" />
+
+    <div class="form-group">
+        <label>Name</label>
+        <input asp-for="Name" class="form-control" readonly />
+    </div>
+
+    <div class="form-group">
+        <label>New Stock</label>
+        <input name="stock" type="number" value="@Model.Stock" class="form-control" min="0" />
+    </div>
+
+    <div class="form-group">
+        <label>New Price</label>
+        <input name="price" type="number" value="@Model.Price" class="form-control" step="0.01" />
+    </div>
+
+    <button type="submit" class="btn btn-success">Save</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>

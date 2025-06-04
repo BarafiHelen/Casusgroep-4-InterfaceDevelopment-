@@ -51,7 +51,7 @@ namespace KE03_INTDEV_SE_2_Base.Controllers
         public IActionResult Create()
         {
             ViewBag.CustomerList = new SelectList(_context.Customers.Where(c => c.IsActive), "Id", "Name");
-            ViewBag.ProductList = _productRepo.GetAllProducts();
+            ViewBag.ProductList = _productRepo.GetAllProducts().ToList();
             return View();
         }
 
