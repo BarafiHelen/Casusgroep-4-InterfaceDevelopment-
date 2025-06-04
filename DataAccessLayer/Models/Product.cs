@@ -23,7 +23,7 @@ namespace DataAccessLayer.Models
         [Required]
         public int Stock { get; set; }
 
-        [Url]
+       // [Url]
         [Display(Name = "Product Image URL")]
         public string ImageUrl { get; set; }
 
