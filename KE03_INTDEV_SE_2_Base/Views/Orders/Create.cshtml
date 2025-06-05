@@ -1,38 +1,48 @@
 ﻿@model DataAccessLayer.Models.Order
+
 @{
-    var productList = ViewBag.ProductList as List<DataAccessLayer.Models.Product>;
+    ViewData["Title"] = "Create Order";
 }
 
-<h2>Create Order</h2>
+<h2 class="mt-4">📝 Create New Order</h2>
 
-<form asp-action="Create" method="post">
-    <div class="form-group">
-        <label asp-for="CustomerId">Customer</label>
-        <select asp-for="CustomerId" class="form-control" asp-items="ViewBag.CustomerList"></select>
+<form asp-action="Create">
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <label asp-for="CustomerId" class="form-label">Select Customer</label>
+            <select asp-for="CustomerId" class="form-select" asp-items="ViewBag.CustomerList">
+                <option value="">-- Select a customer --</option>
+            </select>
+            <span asp-validation-for="CustomerId" class="text-danger"></span>
+        </div>
     </div>
 
-    <hr />
-    <h4>Select Products</h4>
-    <table class="table">
-        <thead>
-            <tr><th>Product</th><th>Qty</th></tr>
-        </thead>
-        <tbody>
-            @for (int i = 0; i < productList.Count; i++)
-            {
-                <tr>
-                    <td>
-                        @productList[i].Name
-                        <input type="hidden" name="productIds" value="@productList[i].Id" />
-                    </td>
-                    <td>
-                        <input type="number" name="quantities" class="form-control" min="0" value="0" />
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <label class="form-label">Add Products</label>
+            <div>
+                @foreach (var product in ViewBag.ProductList)
+                {
+                    <div class="form-check mb-2">
+                        <input type="checkbox" name="productIds" value="@product.Id" class="form-check-input" id="prod_@product.Id">
+                        <label class="form-check-label" for="prod_@product.Id">
+                            @product.Name (€@product.Price)
+                        </label>
+                        <input type="number" name="quantities" class="form-control mt-1" placeholder="Quantity" min="1" />
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
 
-    <button type="submit" class="btn btn-success">Create Order</button>
-    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+    <button type="submit" class="btn btn-success">
+        <i class="bi bi-check-circle"></i> Submit Order
+    </button>
+    <a asp-action="Index" class="btn btn-outline-secondary ms-2">Cancel</a>
 </form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

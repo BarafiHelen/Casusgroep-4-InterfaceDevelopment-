@@ -4,31 +4,36 @@
     ViewData["Title"] = "Order Details";
 }
 
-<h2>Order Details</h2>
+<div class="card border-info mb-4">
+    <div class="card-header bg-info text-white">
+        <h4><i class="bi bi-receipt"></i> Order #@Model.Id</h4>
+    </div>
+    <div class="card-body">
+        <p><strong>Date:</strong> @Model.OrderDate.ToShortDateString()</p>
+        <p><strong>Customer:</strong> @Model.Customer.Name</p>
 
-<div>
-    <h4>Order #@Model.Id</h4>
-    <p><strong>Customer:</strong> @Model.Customer.Name</p>
-    <p><strong>Date:</strong> @Model.OrderDate.ToShortDateString()</p>
+        <h5 class="mt-4">Products in Order</h5>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.OrderItems)
+                {
+                    <tr>
+                        <td>@item.Product.Name</td>
+                        <td>&euro; @item.Product.Price</td>
+                        <td>@item.Quantity</td>
+                        <td>&euro; @(item.Quantity * item.Product.Price)</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <a asp-action="Index" class="btn btn-outline-secondary">Back to List</a>
+    </div>
 </div>
-
-<h5>Ordered Products</h5>
-<table class="table">
-    <thead>
-        <tr>
-            <th>Product</th>
-            <th>Quantity</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.OrderItems)
-        {
-            <tr>
-                <td>@item.Product.Name</td>
-                <td>@item.Quantity</td>
-            </tr>
-        }
-    </tbody>
-</table>
-
-<a asp-action="Index" class="btn btn-secondary">Back to List</a>
