@@ -4,7 +4,7 @@
 
 <div class="text-center">
     <h1 class="display-4 mt-4">Welcome to the Matrix Inc. Admin Portal</h1>
-    <p class="lead">Manage products, customers, and orders efficiently with our powerful backoffice tools.</p>
+    <p class="lead">Manage products, customers, categories and orders efficiently with our powerful backoffice tools.</p>
 
     <div class="row justify-content-center mt-5">
         <div class="col-md-3">
@@ -25,6 +25,17 @@
                     <h5 class="card-title mt-2">Customers</h5>
                     <p class="card-text">Manage all customer details.</p>
                     <a asp-controller="Customers" asp-action="Index" class="btn btn-outline-success">Go to Customers</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card shadow-sm border-secondary">
+                <div class="card-body text-center">
+                    <i class="bi bi-tags" style="font-size: 2rem;"></i>
+                    <h5 class="card-title mt-2">Categories</h5>
+                    <p class="card-text">Create and organize product categories.</p>
+                    <a asp-controller="Categories" asp-action="Index" class="btn btn-outline-secondary">Go to Categories</a>
                 </div>
             </div>
         </div>
