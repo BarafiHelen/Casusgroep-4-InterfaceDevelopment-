@@ -186,6 +186,18 @@ namespace KE03_INTDEV_SE_2_Base.Controllers
 
             return RedirectToAction(nameof(Index));
         }
+        
+        
+        [HttpGet]
+        public IActionResult Search(string term)
+        {
+            var results = _context.Products
+                .Where(p => p.Name.Contains(term))
+                .Select(p => new { id = p.Id, name = p.Name })
+                .Take(5)
+                .ToList();
 
+            return Json(results);
+        }
     }
 }

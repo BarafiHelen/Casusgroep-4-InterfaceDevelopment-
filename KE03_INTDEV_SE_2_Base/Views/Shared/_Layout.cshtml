@@ -8,6 +8,20 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.2/dist/minty/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/KE03_INTDEV_SE_2_Base.styles.css" asp-append-version="true" />
+    <style>
+        #search-results {
+            position: absolute;
+            z-index: 1000;
+            background: white;
+            border: 1px solid #ccc;
+            width: 100%;
+            display: none;
+        }
+
+            #search-results.show {
+                display: block;
+            }
+    </style>
 </head>
 <body>
     <header>
@@ -36,6 +50,10 @@
                             <a class="nav-link" asp-controller="Orders" asp-action="Index">Orders</a>
                         </li>
                     </ul>
+                    <form class="d-flex position-relative" role="search">
+                        <input id="search-box" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                        <div id="search-results" class="dropdown-menu"></div>
+                    </form>
                 </div>
             </div>
         </nav>
@@ -56,6 +74,31 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script>
+        const searchBox = document.getElementById('search-box');
+        const resultsContainer = document.getElementById('search-results');
+
+        searchBox.addEventListener('input', async function () {
+            const query = searchBox.value.trim();
+            if (query.length < 2) {
+                resultsContainer.innerHTML = '';
+                resultsContainer.classList.remove('show');
+                return;
+            }
+
+            const response = await fetch(`/Search/Global?term=${encodeURIComponent(query)}`);
+            const data = await response.json();
+
+            resultsContainer.innerHTML = data.map(item => `
+                <a class="dropdown-item" href="${item.url}">
+                    <strong>${item.type}</strong>: ${item.name}
+                </a>
+            `).join('');
+            resultsContainer.classList.add('show');
+        });
+
+        document.addEventListener('click', () => resultsContainer.classList.remove('show'));
+    </script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
