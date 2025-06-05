@@ -69,22 +69,7 @@ namespace KE03_INTDEV_SE_2_Base.Controllers
             return View(product);
         }
 
-        // GET: Products/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
 
-            var product = await _context.Products.FindAsync(id);
-            if (product == null)
-            {
-                return NotFound();
-            }
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Name", product.CategoryId);
-            return View(product);
-        }
 
         // POST: Products/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
@@ -181,6 +166,49 @@ namespace KE03_INTDEV_SE_2_Base.Controllers
             product.Price = updatedProduct.Price;
 
             _context.Products.Update(product);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
+        }
+        // GET: Products/SetSale/5
+        public async Task<IActionResult> SetSale(int id)
+        {
+            var product = await _context.Products.FindAsync(id);
+            if (product == null) return NotFound();
+            return View(product);
+        }
+
+        // POST: Products/SetSale/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> SetSale(int id, decimal salePrice)
+        {
+            var product = await _context.Products.FindAsync(id);
+            if (product == null) return NotFound();
+
+            product.OriginalPrice = product.Price;
+            product.Price = salePrice;
+            product.IsOnSale = true;
+
+            _context.Update(product);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        // Remove sale
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> RemoveSale(int id)
+        {
+            var product = await _context.Products.FindAsync(id);
+            if (product == null) return NotFound();
+
+            product.Price = product.OriginalPrice ?? product.Price;
+            product.OriginalPrice = null;
+            product.IsOnSale = false;
+
+            _context.Update(product);
             await _context.SaveChangesAsync();
 
             return RedirectToAction(nameof(Index));
