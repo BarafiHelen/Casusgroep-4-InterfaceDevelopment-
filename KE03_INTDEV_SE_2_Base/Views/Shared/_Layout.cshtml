@@ -19,6 +19,9 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
+                    @{
+                        var gebruiker = Context.Session.GetString("Gebruiker");
+                    }
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
                             <a class="nav-link" asp-controller="Home" asp-action="Index">Home</a>
@@ -35,6 +38,25 @@
                         <li class="nav-item">
                             <a class="nav-link" asp-controller="Orders" asp-action="Index">Orders</a>
                         </li>
+
+                        @if (string.IsNullOrEmpty(gebruiker))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Gebruiker" asp-action="Login">Inloggen</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Gebruiker" asp-action="Registreer">Registreren</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <span class="navbar-text text-white me-2">Welkom, @gebruiker!</span>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Gebruiker" asp-action="Uitloggen">Uitloggen</a>
+                            </li>
+                        }
                     </ul>
                 </div>
             </div>

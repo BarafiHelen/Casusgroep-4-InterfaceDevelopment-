@@ -1,5 +1,7 @@
 ﻿using DataAccessLayer.Models;
 using Microsoft.EntityFrameworkCore;
+using KE03_INTDEV_SE_2_Base.Models;
+
 
 namespace DataAccessLayer
 {
@@ -14,6 +16,8 @@ namespace DataAccessLayer
         public DbSet<Product> Products { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
+        public DbSet<Gebruiker> Gebruikers { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
