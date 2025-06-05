@@ -39,6 +39,16 @@
                         <span asp-validation-for="ImageUrl" class="text-danger"></span>
                     </div>
                     <div class="col-md-6">
+                        <div class="form-check">
+                            <input class="form-check-input" asp-for="IsOnSale" />
+                            <label class="form-check-label fw-bold" asp-for="IsOnSale">@Html.DisplayNameFor(m => m.IsOnSale)</label>
+                     </div>
+                     <div class="col-md-6">
+                            <label asp-for="OriginalPrice" class="form-label fw-bold"></label>
+                            <input asp-for="OriginalPrice" class="form-control" />
+                            <span asp-validation-for="OriginalPrice" class="text-danger"></span>
+                        </div>
+                    <div class="col-md-6">
                         <label asp-for="CategoryId" class="form-label fw-bold"></label>
                         <select asp-for="CategoryId" class="form-select" asp-items="ViewBag.CategoryId"></select>
                         <span asp-validation-for="CategoryId" class="text-danger"></span>

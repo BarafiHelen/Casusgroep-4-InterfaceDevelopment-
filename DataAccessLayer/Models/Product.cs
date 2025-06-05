@@ -31,5 +31,14 @@ namespace DataAccessLayer.Models
         public int CategoryId { get; set; }
 
         public Category Category { get; set; }
+
+        // Nieuw toegevoegd voor sale-functionaliteit
+        [Display(Name = "Original Price")]
+        [Range(0.01, 10000, ErrorMessage = "Original Price must be between 0.01 and 10000")]
+        [DisplayFormat(DataFormatString = "{0:F2}", ApplyFormatInEditMode = true)]
+        public decimal? OriginalPrice { get; set; }
+
+        [Display(Name = "Is On Sale")]
+        public bool IsOnSale { get; set; } = false;
     }
 }
