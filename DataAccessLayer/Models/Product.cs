@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Globalization;
 
 namespace DataAccessLayer.Models
 {
@@ -16,20 +14,22 @@ namespace DataAccessLayer.Models
 
         public string Description { get; set; }
 
-        [Required]
-        [Range(0.01, 10000)]
+        [Required(ErrorMessage = "Price is required")]
+        [Range(0.01, 10000, ErrorMessage = "Price must be between 0.01 and 10000")]
+        [DisplayFormat(DataFormatString = "{0:F2}", ApplyFormatInEditMode = true)]
         public decimal Price { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Stock is required")]
         public int Stock { get; set; }
 
-       // [Url]
         [Display(Name = "Product Image URL")]
         public string ImageUrl { get; set; }
 
         public bool IsActive { get; set; } = true;
 
+        [Display(Name = "Category")]
         public int CategoryId { get; set; }
+
         public Category Category { get; set; }
     }
 }

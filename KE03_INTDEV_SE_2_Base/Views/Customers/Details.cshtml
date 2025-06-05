@@ -1,36 +1,70 @@
-﻿<hr />
-<h4>Orders for @Model.Name</h4>
+﻿@model DataAccessLayer.Models.Customer
 
-@if (Model.Orders != null && Model.Orders.Any())
-{
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Order ID</th>
-                <th>Date</th>
-                <th>Products</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var order in Model.Orders)
-            {
-                <tr>
-                    <td>@order.Id</td>
-                    <td>@order.OrderDate.ToShortDateString()</td>
-                    <td>
-                        <ul>
-                            @foreach (var item in order.OrderItems)
-                            {
-                                <li>@item.Product.Name × @item.Quantity</li>
-                            }
-                        </ul>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+@{
+    ViewData["Title"] = "Customer Details";
 }
-else
-{
-    <p><em>This customer has no orders.</em></p>
-}
+
+<div class="container mt-4">
+    <div class="card shadow-sm border-success">
+        <div class="card-header bg-success text-white">
+            <h4 class="mb-0">@Model.Name</h4>
+        </div>
+        <div class="card-body">
+            <p><strong>Address:</strong> @Model.Address</p>
+            <p><strong>Active:</strong> @(Model.IsActive ? "Yes" : "No")</p>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <h5>Orders for @Model.Name</h5>
+
+        @if (Model.Orders != null && Model.Orders.Any())
+        {
+            <table class="table table-bordered table-hover mt-3">
+                <thead class="table-light">
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Date</th>
+                        <th>Products</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var order in Model.Orders)
+                    {
+                        <tr>
+                            <td>@order.Id</td>
+                            <td>@order.OrderDate.ToShortDateString()</td>
+                            <td>
+                                @if (order.OrderItems != null && order.OrderItems.Any())
+                                {
+                                    <ul class="mb-0">
+                                        @foreach (var item in order.OrderItems)
+                                        {
+                                            <li>@item.Product?.Name × @item.Quantity</li>
+                                        }
+                                    </ul>
+                                }
+                                else
+                                {
+                                    <em>No products</em>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <div class="alert alert-info mt-3">
+                <strong>No orders found for this customer.</strong>
+            </div>
+        }
+    </div>
+
+    <div class="mt-4">
+        <a asp-action="Index" class="btn btn-outline-secondary">← Back to List</a>
+        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-outline-primary">Edit</a>
+        <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-outline-danger">Delete</a>
+    </div>
+</div>

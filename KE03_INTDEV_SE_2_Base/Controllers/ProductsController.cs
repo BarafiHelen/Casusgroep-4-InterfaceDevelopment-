@@ -22,7 +22,7 @@ namespace KE03_INTDEV_SE_2_Base.Controllers
         // GET: Products
         public async Task<IActionResult> Index()
         {
-            var matrixIncDbContext = _context.Products.Include(p => p.Category).Where(p => p.IsActive);
+            var matrixIncDbContext = _context.Products.Include(p => p.Category);
             return View(await matrixIncDbContext.ToListAsync());
         }
 
@@ -149,8 +149,7 @@ namespace KE03_INTDEV_SE_2_Base.Controllers
             var product = await _context.Products.FindAsync(id);
             if (product != null)
             {
-                product.IsActive = false;
-                _context.Products.Update(product);
+                _context.Products.Remove(product);
             }
 
             await _context.SaveChangesAsync();
@@ -167,37 +166,24 @@ namespace KE03_INTDEV_SE_2_Base.Controllers
         {
             var product = await _context.Products.FindAsync(id);
             if (product == null) return NotFound();
-
             return View(product);
         }
 
         // POST: Products/UpdateStockAndPrice/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> UpdateStockAndPrice(int id, int stock, decimal price)
+        public async Task<IActionResult> UpdateStockAndPrice(int id, [Bind("Id,Stock,Price")] Product updatedProduct)
         {
             var product = await _context.Products.FindAsync(id);
             if (product == null) return NotFound();
 
-            product.Stock = stock;
-            product.Price = price;
-            _context.Update(product);
+            product.Stock = updatedProduct.Stock;
+            product.Price = updatedProduct.Price;
+
+            _context.Products.Update(product);
             await _context.SaveChangesAsync();
 
             return RedirectToAction(nameof(Index));
-        }
-        
-        
-        [HttpGet]
-        public IActionResult Search(string term)
-        {
-            var results = _context.Products
-                .Where(p => p.Name.Contains(term))
-                .Select(p => new { id = p.Id, name = p.Name })
-                .Take(5)
-                .ToList();
-
-            return Json(results);
         }
     }
 }
