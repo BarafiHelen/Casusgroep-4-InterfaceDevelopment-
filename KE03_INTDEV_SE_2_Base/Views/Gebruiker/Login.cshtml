@@ -1,16 +1,33 @@
 ﻿@model KE03_INTDEV_SE_2_Base.Models.Gebruiker
 
-<h2>Inloggen</h2>
-<form method="post">
-    <label>Gebruikersnaam</label><br />
-    <input asp-for="Gebruikersnaam" /><br />
-    <label>Wachtwoord</label><br />
-    <input asp-for="Wachtwoord" type="password" /><br />
-    <button type="submit">Login</button>
-</form>
-
-@if (ViewBag.Melding != null)
-{
-    <p style="color:red">@ViewBag.Melding</p>
+@{
+    ViewData["Title"] = "Login";
 }
 
+<div class="container mt-5">
+    <div class="card shadow-sm border-primary">
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0">Inloggen</h4>
+        </div>
+        <div class="card-body">
+            <form method="post">
+                <div class="mb-3">
+                    <label asp-for="Gebruikersnaam" class="form-label fw-bold">Gebruikersnaam</label>
+                    <input asp-for="Gebruikersnaam" class="form-control" />
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Wachtwoord" class="form-label fw-bold">Wachtwoord</label>
+                    <input asp-for="Wachtwoord" class="form-control" type="password" />
+                </div>
+                <div class="d-flex justify-content-between">
+                    <button type="submit" class="btn btn-primary">Login</button>
+                    <a href="/Gebruiker/Registreer" class="btn btn-outline-secondary">Registreer</a>
+                </div>
+                @if (ViewBag.Melding != null)
+                {
+                    <div class="alert alert-danger mt-3">@ViewBag.Melding</div>
+                }
+            </form>
+        </div>
+    </div>
+</div>

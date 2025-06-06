@@ -18,9 +18,9 @@
             display: none;
         }
 
-            #search-results.show {
-                display: block;
-            }
+        #search-results.show {
+           display: block;
+        }
     </style>
 </head>
 <body>
@@ -28,14 +28,16 @@
         <nav class="navbar navbar-expand-sm navbar-dark bg-primary mb-4">
             <div class="container-fluid">
                 <a class="navbar-brand fw-bold" asp-controller="Home" asp-action="Index">BackOffice Admin</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav"
-                        aria-expanded="false" aria-label="Toggle navigation">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
+
                 <div class="collapse navbar-collapse" id="navbarNav">
                     @{
                         var gebruiker = Context.Session.GetString("Gebruiker");
                     }
+
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
                             <a class="nav-link" asp-controller="Home" asp-action="Index">Home</a>
@@ -52,30 +54,25 @@
                         <li class="nav-item">
                             <a class="nav-link" asp-controller="Orders" asp-action="Index">Orders</a>
                         </li>
+                    </ul>
+
+                    <div class="d-flex align-items-center">
+                        <form class="d-flex position-relative me-3" role="search">
+                            <input id="search-box" class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
+                            <div id="search-results" class="dropdown-menu"></div>
+                        </form>
 
                         @if (string.IsNullOrEmpty(gebruiker))
                         {
-                            <li class="nav-item">
-                                <a class="nav-link" asp-controller="Gebruiker" asp-action="Login">Inloggen</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" asp-controller="Gebruiker" asp-action="Registreer">Registreren</a>
-                            </li>
+                            <a class="btn btn-outline-light btn-sm me-2" asp-controller="Gebruiker" asp-action="Login">Inloggen</a>
+                            <a class="btn btn-light btn-sm" asp-controller="Gebruiker" asp-action="Registreer">Registreren</a>
                         }
                         else
                         {
-                            <li class="nav-item">
-                                <span class="navbar-text text-white me-2">Welkom, @gebruiker!</span>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" asp-controller="Gebruiker" asp-action="Uitloggen">Uitloggen</a>
-                            </li>
+                            <span class="text-white me-2">👋 @gebruiker</span>
+                            <a class="btn btn-warning btn-sm" asp-controller="Gebruiker" asp-action="Uitloggen">Uitloggen</a>
                         }
-                    </ul>
-                    <form class="d-flex position-relative" role="search">
-                        <input id="search-box" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                        <div id="search-results" class="dropdown-menu"></div>
-                    </form>
+                    </div>
                 </div>
             </div>
         </nav>

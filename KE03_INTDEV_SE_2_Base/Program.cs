@@ -35,9 +35,13 @@ namespace KE03_INTDEV_SE_2_Base
             using (var scope = app.Services.CreateScope())
             {
                 var services = scope.ServiceProvider;
-
                 var context = services.GetRequiredService<MatrixIncDbContext>();
-                MatrixIncDbInitializer.Initialize(context);
+
+                
+                context.Database.Migrate();
+
+               
+                MatrixIncDbInitializer.SeedData(context);
             }
 
             app.UseHttpsRedirection();

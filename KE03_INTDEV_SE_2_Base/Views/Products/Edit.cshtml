@@ -10,56 +10,65 @@
             <h4>Edit Product</h4>
         </div>
         <div class="card-body">
-            <form asp-action="Edit">
+            <form asp-action="Edit" method="post">
                 <input type="hidden" asp-for="Id" />
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
                 <div class="row g-3">
                     <div class="col-md-6">
                         <label asp-for="Name" class="form-label fw-bold"></label>
                         <input asp-for="Name" class="form-control" />
                         <span asp-validation-for="Name" class="text-danger"></span>
                     </div>
+
                     <div class="col-md-6">
                         <label asp-for="Price" class="form-label fw-bold"></label>
                         <input asp-for="Price" class="form-control" />
                         <span asp-validation-for="Price" class="text-danger"></span>
                     </div>
+
                     <div class="col-md-12">
                         <label asp-for="Description" class="form-label fw-bold"></label>
-                        <input asp-for="Description" class="form-control" />
+                        <textarea asp-for="Description" class="form-control" rows="3"></textarea>
                         <span asp-validation-for="Description" class="text-danger"></span>
                     </div>
+
                     <div class="col-md-6">
                         <label asp-for="Stock" class="form-label fw-bold"></label>
                         <input asp-for="Stock" class="form-control" />
                         <span asp-validation-for="Stock" class="text-danger"></span>
                     </div>
+
                     <div class="col-md-6">
                         <label asp-for="ImageUrl" class="form-label fw-bold"></label>
                         <input asp-for="ImageUrl" class="form-control" />
                         <span asp-validation-for="ImageUrl" class="text-danger"></span>
                     </div>
-                    <div class="col-md-6">
-                        <div class="form-check">
-                            <input class="form-check-input" asp-for="IsOnSale" />
-                            <label class="form-check-label fw-bold" asp-for="IsOnSale">@Html.DisplayNameFor(m => m.IsOnSale)</label>
-                     </div>
-                     <div class="col-md-6">
-                            <label asp-for="OriginalPrice" class="form-label fw-bold"></label>
-                            <input asp-for="OriginalPrice" class="form-control" />
-                            <span asp-validation-for="OriginalPrice" class="text-danger"></span>
-                        </div>
+
                     <div class="col-md-6">
                         <label asp-for="CategoryId" class="form-label fw-bold"></label>
                         <select asp-for="CategoryId" class="form-select" asp-items="ViewBag.CategoryId"></select>
                         <span asp-validation-for="CategoryId" class="text-danger"></span>
                     </div>
+
+                    <div class="col-md-6">
+                        <label asp-for="OriginalPrice" class="form-label fw-bold"></label>
+                        <input asp-for="OriginalPrice" class="form-control" />
+                        <span asp-validation-for="OriginalPrice" class="text-danger"></span>
+                    </div>
+
                     <div class="col-md-6 d-flex align-items-center">
+                        <div class="form-check me-4">
+                            <input class="form-check-input" asp-for="IsOnSale" />
+                            <label class="form-check-label fw-bold" asp-for="IsOnSale">@Html.DisplayNameFor(m => m.IsOnSale)</label>
+                        </div>
                         <div class="form-check">
                             <input class="form-check-input" asp-for="IsActive" />
                             <label class="form-check-label fw-bold" asp-for="IsActive">@Html.DisplayNameFor(m => m.IsActive)</label>
                         </div>
                     </div>
                 </div>
+
                 <div class="mt-4 d-flex justify-content-between">
                     <a asp-action="Index" class="btn btn-outline-secondary">Back</a>
                     <button type="submit" class="btn btn-success">Save Changes</button>
