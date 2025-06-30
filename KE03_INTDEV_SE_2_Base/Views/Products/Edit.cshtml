@@ -51,20 +51,12 @@
                         <span asp-validation-for="CategoryId" class="text-danger"></span>
                     </div>
 
-                    <div class="col-md-6">
-                        <label asp-for="OriginalPrice" class="form-label fw-bold"></label>
-                        <input asp-for="OriginalPrice" class="form-control" />
-                        <span asp-validation-for="OriginalPrice" class="text-danger"></span>
-                    </div>
-
                     <div class="col-md-6 d-flex align-items-center">
-                        <div class="form-check me-4">
-                            <input class="form-check-input" asp-for="IsOnSale" />
-                            <label class="form-check-label fw-bold" asp-for="IsOnSale">@Html.DisplayNameFor(m => m.IsOnSale)</label>
-                        </div>
-                        <div class="form-check">
+                        <div class="form-check mt-4">
                             <input class="form-check-input" asp-for="IsActive" />
-                            <label class="form-check-label fw-bold" asp-for="IsActive">@Html.DisplayNameFor(m => m.IsActive)</label>
+                            <label class="form-check-label fw-bold" asp-for="IsActive">
+                                @Html.DisplayNameFor(m => m.IsActive)
+                            </label>
                         </div>
                     </div>
                 </div>

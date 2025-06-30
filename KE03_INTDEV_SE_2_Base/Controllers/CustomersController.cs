@@ -77,11 +77,12 @@ namespace KE03_INTDEV_SE_2_Base.Controllers
                 return NotFound();
             }
 
-            var customer = await _context.Customers.FindAsync(id);
-            if (customer == null)
-            {
-                return NotFound();
-            }
+            var customer = await _context.Customers
+                .Include(c => c.Orders)
+                .FirstOrDefaultAsync(c => c.Id == id);
+
+            if (customer == null) return NotFound();
+
             return View(customer);
         }
 

@@ -173,7 +173,7 @@ namespace KE03_INTDEV_SE_2_Base.Controllers
 
             return RedirectToAction(nameof(Index));
         }
-        // GET: Products/SetSale/5
+      /*  // GET: Products/SetSale/5
         public async Task<IActionResult> SetSale(int id)
         {
             var product = await _context.Products.FindAsync(id);
@@ -215,6 +215,6 @@ namespace KE03_INTDEV_SE_2_Base.Controllers
             await _context.SaveChangesAsync();
 
             return RedirectToAction(nameof(Index));
-        }
+        }*/
     }
 }
